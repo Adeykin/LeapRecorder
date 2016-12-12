@@ -20,18 +20,11 @@ void HandSkeletonWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
-    //glLoadIdentity();
-    //glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-    //glRotatef(-30, 0.0f, 1.0f, 0.0f);
-    //glRotatef(30, 1.0f, 0.0f, 0.0f);
-
     glLoadIdentity();
     glOrtho(-300.0, 300.0, -50.0, 450.0, -300.0, 350.0);
-    //glRotatef(180, 0.0f, 1.0f, 0.0f);
-   // glScalef(1.f, 1.f, -1.f);
 
     glRotatef(-30, 1.0f, 0.0f, 0.0f);
-    glRotatef(-30, 0.0f, 1.0f, 0.0f);
+    glRotatef(30, 0.0f, 1.0f, 0.0f);
 
     drawGrid();
 
@@ -58,11 +51,10 @@ void HandSkeletonWidget::drawHand()
         Leap::Vector palmPos = hand.palmPosition();
 
         glBegin(GL_POINTS);
-            glVertex3d(palmPos.x, palmPos.y, palmPos.z);
+            glVertex3d(palmPos.x, palmPos.y, -palmPos.z);
             glVertex3d(palmPos.x, palmPos.y, 200);
-            glVertex3d(-200, palmPos.y, palmPos.z);
-            glVertex3d(palmPos.x, 0, palmPos.z);
-            //std::cout << palmPos.x << ' ' << palmPos.y << ' ' << palmPos.z;
+            glVertex3d(-200, palmPos.y, -palmPos.z);
+            glVertex3d(palmPos.x, 0, -palmPos.z);
         glEnd();
 
         // Get fingers
@@ -84,7 +76,7 @@ void HandSkeletonWidget::drawHand()
 
             glBegin(GL_LINE_STRIP);
             for(int i = 0; i < fingerSkelet.size(); i++)
-                glVertex3d(fingerSkelet[i].x, fingerSkelet[i].y, fingerSkelet[i].z);
+                glVertex3d(fingerSkelet[i].x, fingerSkelet[i].y, -fingerSkelet[i].z);
             glEnd();
 
         }
@@ -127,6 +119,16 @@ void HandSkeletonWidget::drawGrid()
         }
 
         // yOz
+        for(int y = yMin; y <= yMax; y+=gridStep)
+        {
+            glVertex3d(xMin, y, zMin);
+            glVertex3d(xMin, y, zMax);
+        }
+        for(int z = zMin; z <= zMax; z+=gridStep)
+        {
+            glVertex3d(xMin, yMin, z);
+            glVertex3d(xMin, yMax, z);
+        }
     glEnd();
 
 
@@ -166,15 +168,9 @@ void HandSkeletonWidget::resizeGL(int width, int height)
     glLoadIdentity();
     glOrtho(-300.0, 300.0, -50.0, 450.0, -300.0, 350.0);
     glViewport(0, 0, (GLint)width, (GLint)height);
-    //glRotatef(180, 0.0f, 1.0f, 0.0f);
-
-    //glRotatef(-30, 1.0f, 0.0f, 0.0f);
-    //glRotatef(30, 0.0f, 1.0f, 0.0f);
-
 }
 
 void HandSkeletonWidget::initializeGL()
 {
-    //resize(this->geometry().width(),this->geometry().height());
 }
 
