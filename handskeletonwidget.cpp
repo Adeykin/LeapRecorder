@@ -39,9 +39,9 @@ void HandSkeletonWidget::paintGL()
 void HandSkeletonWidget::drawHand()
 {
     glMatrixMode(GL_MODELVIEW);
-    glLineWidth(2.0f);
+    glLineWidth(3.0f);
     glPointSize(4);
-    glColor3d(1.0, 0.0, 0.0);
+    glColor3d(1.0, 1.0, 1.0);
     Leap::HandList hands = lastFrame->hands();
     for (auto hl = hands.begin(); hl != hands.end(); ++hl)
     {
@@ -86,7 +86,7 @@ void HandSkeletonWidget::drawHand()
 void HandSkeletonWidget::drawGrid()
 {
     glLineWidth(1.0f);
-    glColor3d(0.0, 1.0, 0.0);
+    glColor3d(0.0, 0.7, 0.0);
 
     int gridStep = 20;
     int xMin = -200, xMax = 200;
@@ -151,12 +151,12 @@ void HandSkeletonWidget::drawGrid()
 
 void HandSkeletonWidget::setFrame(Leap::Frame frame)
 {
-    std::cout << "Frame id: " << frame.id()
+    /*std::cout << "Frame id: " << frame.id()
               << ", timestamp: " << frame.timestamp()
               << ", hands: " << frame.hands().count()
               << ", extended fingers: " << frame.fingers().extended().count()
               << ", tools: " << frame.tools().count()
-              << ", gestures: " << frame.gestures().count() << std::endl;
+              << ", gestures: " << frame.gestures().count() << std::endl;*/
     lastFrame.reset( new Leap::Frame(frame));
     updateFrame = true;
     update();

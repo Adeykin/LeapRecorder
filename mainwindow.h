@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPushButton>
 #include <handskeletonwidget.h>
+#include <recorder.h>
 
 class MainWindow : public QMainWindow
 {
@@ -12,10 +14,19 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    HandSkeletonWidget* getHandSkeletonWidget()
+    HandSkeletonWidget* getHandSkeletonWidget() const
         { return handSkeletonWidget; }
+    Recorder* getRecorder() const
+        { return recorder; }
+private slots:
+    //bool keypres(QKeyEvent *keyevent);
+    void recClicked();
 private:
-    HandSkeletonWidget* handSkeletonWidget;
+    HandSkeletonWidget* handSkeletonWidget = nullptr;
+    Recorder* recorder = nullptr;
+    QPushButton* recBut;
+
+    bool recordingNow = false;
 };
 
 #endif // MAINWINDOW_H

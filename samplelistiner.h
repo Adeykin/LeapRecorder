@@ -2,13 +2,14 @@
 #define SAMPLELISTINER_H
 
 #include "handskeletonwidget.h"
+#include "recorder.h"
 #include <Leap.h>
 
 
 class SampleListiner : public Leap::Listener
 {
 public:
-    SampleListiner(HandSkeletonWidget* widget);
+    SampleListiner(HandSkeletonWidget* widget = nullptr, Recorder* recorder = nullptr);
 
     virtual void onInit(const Leap::Controller&);
     virtual void onConnect(const Leap::Controller&);
@@ -22,6 +23,7 @@ public:
     virtual void onServiceDisconnect(const Leap::Controller&);
 private:
     HandSkeletonWidget* widget;
+    Recorder* recorder;
 };
 
 #endif // SAMPLELISTINER_H

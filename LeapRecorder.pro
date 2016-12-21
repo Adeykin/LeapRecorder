@@ -18,10 +18,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     samplelistiner.cpp \
-    handskeletonwidget.cpp
+    handskeletonwidget.cpp \
+    recorder.cpp
 
 HEADERS  += mainwindow.h \
     samplelistiner.h \
-    handskeletonwidget.h
+    handskeletonwidget.h \
+    recorder.h
 
 CONFIG   += c++11 (Qt5)
