@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "mainwindowmarker.h"
 #include <QApplication>
 #include <Leap.h>
 
@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    MainWindowMarker w;
     Leap::Controller controller;
 
     w.show();
