@@ -12,10 +12,12 @@ TARGET = Marker
 TEMPLATE = app
 
 SOURCES += main.cpp\
-    mainwindowmarker.cpp
+    mainwindowmarker.cpp \
+    sequencemarker.cpp
 
 HEADERS  += \
-    mainwindowmarker.h
+    mainwindowmarker.h \
+    sequencemarker.h
 
 CONFIG   += c++11 (Qt5)
 
