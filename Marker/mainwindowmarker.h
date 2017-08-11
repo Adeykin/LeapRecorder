@@ -29,6 +29,8 @@ private slots:
 
     void on_writeNext_clicked();
 
+    void on_actionSave_triggered();
+
 private:
     void updateUI();
 

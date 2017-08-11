@@ -77,3 +77,8 @@ void MainWindowMarker::on_writeNext_clicked()
     seqMarker->next();
     updateUI();
 }
+
+void MainWindowMarker::on_actionSave_triggered()
+{
+    seqMarker->save();
+}

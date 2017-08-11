@@ -13,6 +13,13 @@ SequenceMarker *SequenceMarker::createSequenceMaerker(QString fileName)
     return seqMarker.release();
 }
 
+int SequenceMarker::save()
+{
+    std::string labelsFileName = fileName + ".lbl";
+    std::ofstream labelsFile(labelsFileName, std::ios::binary);
+    labelsFile.write(labels.data(), labels.size());
+}
+
 SequenceMarker::SequenceMarker()
 {
 
@@ -21,6 +28,8 @@ SequenceMarker::SequenceMarker()
 int SequenceMarker::load(QString fileName)
 {
     Leap::Controller controller; //instance must be created
+
+    this->fileName = fileName.toStdString();
 
     const int bufSize = 10000;
     char buf[bufSize];
@@ -53,7 +62,16 @@ int SequenceMarker::load(QString fileName)
         frames.push_back(reconstructedFrame);
     } while( file );
 
-    labels.resize(frames.size(), 0);
+    std::string labelsFileName = fileName.toStdString() + ".lbl";
+    std::ifstream labelsFile(labelsFileName, std::ios::binary);
+    if( labelsFile ) //labels file exists
+    {
+        std::copy(std::istream_iterator<char>(labelsFile), std::istream_iterator<char>(), std::back_inserter(labels));
+    }
+    else
+    {
+        labels.resize(frames.size(), 0);
+    }
 
     qDebug() << "Reading finished; Frames " << frames.size();
     return 0; // ERR_OK

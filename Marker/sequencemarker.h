@@ -22,12 +22,13 @@ public:
 
     Leap::Frame getFrame() const {return frames[index];}
 
-    int save(QString);
+    int save();
 
 private:
     SequenceMarker();
     int load(QString);
 
+    std::string fileName;
     std::vector<Leap::Frame> frames;
     std::vector<char> labels;
     int index = 0;
