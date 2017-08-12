@@ -32,10 +32,16 @@ void MainWindowMarker::appReady() //slot
         QString fileName = QFileDialog::getOpenFileName(NULL);
         qDebug() << "Opening file: " << fileName;
 
+        if(fileName == QString()) //Cancel button was pressed
+        {
+            exit(0);
+        }
+
         seqMarker = SequenceMarker::createSequenceMaerker(fileName);
     }
     while(!seqMarker);
 
+    ui->horizontalSlider->setTickInterval( seqMarker->getMaxIndex() );
     updateUI();
 }
 
@@ -48,6 +54,8 @@ void MainWindowMarker::updateUI()
 
     status->setText( QString().setNum(seqMarker->getCurrentIndex()) + "/" + QString().setNum(seqMarker->getMaxIndex()) );
     ui->actualLatter->setText( QString().setNum((int)seqMarker->getLabel()) );
+
+    ui->horizontalSlider->setValue( seqMarker->getCurrentIndex() );
 }
 
 void MainWindowMarker::on_nextButton_clicked()
@@ -81,4 +89,10 @@ void MainWindowMarker::on_writeNext_clicked()
 void MainWindowMarker::on_actionSave_triggered()
 {
     seqMarker->save();
+}
+
+void MainWindowMarker::on_horizontalSlider_valueChanged(int value)
+{
+    seqMarker->setIndex(value);
+    updateUI();
 }

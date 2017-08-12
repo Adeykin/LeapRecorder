@@ -31,6 +31,8 @@ private slots:
 
     void on_actionSave_triggered();
 
+    void on_horizontalSlider_valueChanged(int value);
+
 private:
     void updateUI();
 
