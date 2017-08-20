@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 TEMPLATE = subdirs
-SUBDIRS = HandSkeletonWidget Recorder  Marker
+SUBDIRS = HandSkeletonWidget Recorder  Marker \
+    FeatureExtractor
 Recorder.depends = HandSkeletonWidget
 Marker.depends = HandSkeletonWidget
