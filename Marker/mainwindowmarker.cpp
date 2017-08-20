@@ -41,7 +41,8 @@ void MainWindowMarker::appReady() //slot
     }
     while(!seqMarker);
 
-    ui->horizontalSlider->setTickInterval( seqMarker->getMaxIndex() );
+    //ui->horizontalSlider->setTickInterval( seqMarker->getMaxIndex() );
+    ui->horizontalSlider->setRange(0, seqMarker->getMaxIndex());
     updateUI();
 }
 
