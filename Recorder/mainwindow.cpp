@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QFileDialog>
+#include <QKeyEvent>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -39,6 +40,16 @@ MainWindow::~MainWindow()
     delete recorder;
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    recorder->startLabel( (char)e->text()[0].unicode() );
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *e)
+{
+    recorder->stopLabel();
+}
+
 void MainWindow::recClicked()
 {
     if(recordingNow)
@@ -50,9 +61,9 @@ void MainWindow::recClicked()
         {
             recorder->stopRecord();
 
-            std::list<Leap::Frame> record = recorder->getRecord();
+            std::pair<std::list<Leap::Frame>, std::list<char>> recordPair = recorder->getRecord();
 
-            std::cout << "I have a record; Size " << record.size() << " frames\n";
+            std::cout << "I have a record; Size " << recordPair.first.size() << " frames\n";
 
             recorder->clearRecord();
 
@@ -60,7 +71,7 @@ void MainWindow::recClicked()
             qDebug() << fileName;
 
             std::ofstream file(fileName.toStdString().c_str(), std::ios::binary);
-            for(auto it = record.begin(); it != record.end(); it++)
+            for(auto it = recordPair.first.begin(); it != recordPair.first.end(); it++)
             {
                 Leap::Frame& frame = *it;
                 std::string serializedFrame = frame.serialize();
@@ -71,6 +82,11 @@ void MainWindow::recClicked()
                 file.write((char*)&size, 4);
                 file.write(serializedFrame.c_str(), size);
             }
+
+            std::ofstream fileLabels((fileName.toStdString() + ".lbl").c_str(), std::ios::binary);
+            for(char label: recordPair.second)
+                //fileLabels.write( &label, 1);
+                fileLabels.put(label);
         }
     }
     else

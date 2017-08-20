@@ -18,6 +18,9 @@ public:
         { return handSkeletonWidget; }
     Recorder* getRecorder() const
         { return recorder; }
+protected:
+    void keyPressEvent(QKeyEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
 private slots:
     //bool keypres(QKeyEvent *keyevent);
     void recClicked();
