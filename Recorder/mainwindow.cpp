@@ -63,7 +63,7 @@ void MainWindow::recClicked()
 
             std::pair<std::list<Leap::Frame>, std::list<char>> recordPair = recorder->getRecord();
 
-            std::cout << "I have a record; Size " << recordPair.first.size() << " frames\n";
+            qDebug() << "I have a record; Size " << recordPair.first.size() << " frames\n";
 
             recorder->clearRecord();
 
@@ -76,8 +76,7 @@ void MainWindow::recClicked()
                 Leap::Frame& frame = *it;
                 std::string serializedFrame = frame.serialize();
 
-                std::cout << "frame: " << frame.id() << ' ' << frame.fingers().extended().count() << '\n';
-                std::cout << "serialized size: " << serializedFrame.size() << '\n';
+                //qDebug() << "frame: " << frame.id() << ' ' << frame.fingers().extended().count() << '\n';
                 int32_t size = serializedFrame.size();
                 file.write((char*)&size, 4);
                 file.write(serializedFrame.c_str(), size);

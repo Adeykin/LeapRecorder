@@ -45,8 +45,8 @@ void Recorder::setFrame(const Leap::Frame frame)
     if(recordStarted)
     {
         record.push_back(frame);
+        labels.push_back(currentLabel);
     }
-    labels.push_back(currentLabel);
 }
 
 void Recorder::startLabel(char label)
@@ -72,6 +72,7 @@ void Recorder::stopRecord()
 void Recorder::clearRecord()
 {
     record.clear();
+    labels.clear();
 }
 
 std::pair<std::list<Leap::Frame>, std::list<char>> Recorder::getRecord() const
