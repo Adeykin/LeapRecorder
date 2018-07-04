@@ -3,7 +3,7 @@
 
 #include "framehandler.h"
 #include <QLabel>
-#include <memory>
+#include <vector>
 
 class VideoWidget : public QWidget, public IFrameHanler {
     //Q_OBJECT
@@ -18,9 +18,9 @@ private:
     //QImage image;
     //QPixmap pixmap;
 
-    QImage* image = nullptr;
-    QPixmap pixmap;
-    uint8_t buf[640*240];
+    QImage image;
+    //uint8_t buf[640*240];
+    std::vector<uint8_t> buf;
 };
 
 #endif // VIDEOWIDGET_H
