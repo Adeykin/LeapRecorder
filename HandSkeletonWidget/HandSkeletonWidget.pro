@@ -12,5 +12,8 @@ TEMPLATE = lib
 #CONFIG = staticlib
 CONFIG += c++11 (Qt5)
 
-SOURCES += handskeletonwidget.cpp
-HEADERS  += handskeletonwidget.h
+SOURCES += handskeletonwidget.cpp \
+    videowidget.cpp
+HEADERS  += handskeletonwidget.h \
+    framehandler.h \
+    videowidget.h

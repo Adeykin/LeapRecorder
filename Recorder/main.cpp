@@ -27,8 +27,13 @@ int main(int argc, char *argv[])
 
     // Create a sample listener and controller
     //SampleListener listener;
-    SampleListiner listener( w.getHandSkeletonWidget(), w.getRecorder() );
+    SampleListiner listener;
+    listener.addFrameHandler(w.getHandSkeletonWidget());
+    listener.addFrameHandler(w.getRecorder());
+    listener.addFrameHandler(w.getVideoWidget());
     Leap::Controller controller;
+
+    controller.setPolicy(Leap::Controller::POLICY_IMAGES);
 
     // Have the sample listener receive events from the controller
     controller.addListener(listener);

@@ -8,11 +8,8 @@ const std::string boneNames[] = {"Metacarpal", "Proximal", "Middle", "Distal"};
 const std::string stateNames[] = {"STATE_INVALID", "STATE_START", "STATE_UPDATE", "STATE_END"};
 
 
-SampleListiner::SampleListiner(HandSkeletonWidget* _widget, Recorder* _recorder)
-{
-    widget = _widget;
-    recorder = _recorder;
-}
+SampleListiner::SampleListiner()
+{}
 
 void SampleListiner::onInit(const Controller& controller) {
   std::cout << "Initialized" << std::endl;
@@ -38,11 +35,31 @@ void SampleListiner::onExit(const Controller& controller) {
 void SampleListiner::onFrame(const Controller& controller) {
   const Frame frame = controller.frame();
 
-  if(widget)
+  /*if(widget)
       widget->setFrame(frame);
 
   if(recorder)
       recorder->setFrame(frame);
+
+  if(lableImage) {
+      std::cout  << "DRAW\n";
+
+      Leap::Image frameImage = frame.images()[0];
+
+      //cameraLabel->setPixmap(*pixmap);
+      QImage image(frameImage.data(), frameImage.width(), frameImage.height(), QImage::Format::Format_Grayscale8);
+
+
+      //image.scaled(100,100);
+      QPixmap pixmap = QPixmap::fromImage(image);
+      //pixmap.scaled(640, 480);
+      lableImage->setPixmap(pixmap);
+  }*/
+
+  for(IFrameHanler* handler: frameHandlers) {
+      handler->setFrame(frame);
+  }
+
 }
 
 void SampleListiner::onFocusGained(const Controller& controller) {
@@ -68,6 +85,10 @@ void SampleListiner::onServiceConnect(const Controller& controller) {
 }
 
 void SampleListiner::onServiceDisconnect(const Controller& controller) {
-  std::cout << "Service Disconnected" << std::endl;
+    std::cout << "Service Disconnected" << std::endl;
+}
+
+void SampleListiner::addFrameHandler(IFrameHanler *framehandler){
+    frameHandlers.push_back(framehandler);
 }
 

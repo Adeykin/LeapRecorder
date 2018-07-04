@@ -3,13 +3,14 @@
 
 #include <list>
 #include <Leap.h>
+#include <framehandler.h>
 
-class Recorder
+class Recorder : public IFrameHanler
 {
 public:
     Recorder();
 
-    void setFrame(const Leap::Frame frame);
+    void setFrame(const Leap::Frame& frame) override;
     void startLabel(char label);
     void stopLabel();
     void startRecord();

@@ -5,12 +5,14 @@
 #include <Leap.h>
 #include <QtOpenGL/QGLWidget>
 #include <memory>
+#include "framehandler.h"
 
-class HandSkeletonWidget : public QGLWidget
+class HandSkeletonWidget : public QGLWidget, public IFrameHanler
 {
+    //Q_OBJECT
 public:
     HandSkeletonWidget(QWidget *parent);
-    void setFrame(Leap::Frame frame);
+    void setFrame(const Leap::Frame& frame) override;
 protected:
     virtual void initializeGL();
     virtual void resizeGL(int width, int height);

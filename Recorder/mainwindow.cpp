@@ -16,13 +16,24 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     QWidget* central = new QWidget(this);
+    setFixedSize(1280, 600);
+    //setBaseSize(1280, 600);
     QVBoxLayout *layout = new QVBoxLayout(central);
+    QHBoxLayout *hLayout = new QHBoxLayout(central);
     central->setLayout(layout);
     this->setCentralWidget( central );
 
+    layout->addLayout(hLayout);
+
     handSkeletonWidget = new HandSkeletonWidget(central);
-    layout->addWidget(handSkeletonWidget);
+    hLayout->addWidget(handSkeletonWidget);
     recorder = new Recorder();
+
+    //cameraLabel = new QLabel();
+    //cameraLabel->resize(640, 480);
+    //hLayout->addWidget(cameraLabel);
+    videoWidget = new VideoWidget(640, 240, central);
+    hLayout->addWidget(videoWidget);
 
     recBut = new QPushButton("Rec");
     layout->addWidget(recBut);
@@ -30,8 +41,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(recBut, SIGNAL(clicked()), this, SLOT(recClicked()));
 
     central->installEventFilter(this);
-
-    resize(400,400);
 }
 
 MainWindow::~MainWindow()

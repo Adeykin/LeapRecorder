@@ -40,7 +40,7 @@ Recorder::Recorder()
     letterMap['z'] = 32;
 }
 
-void Recorder::setFrame(const Leap::Frame frame)
+void Recorder::setFrame(const Leap::Frame& frame)
 {
     if(recordStarted)
     {

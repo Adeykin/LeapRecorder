@@ -3,13 +3,15 @@
 
 #include "handskeletonwidget.h"
 #include "recorder.h"
+#include "framehandler.h"
 #include <Leap.h>
+#include <QLabel>
 
 
 class SampleListiner : public Leap::Listener
 {
 public:
-    SampleListiner(HandSkeletonWidget* widget = nullptr, Recorder* recorder = nullptr);
+    SampleListiner();
 
     virtual void onInit(const Leap::Controller&);
     virtual void onConnect(const Leap::Controller&);
@@ -21,9 +23,10 @@ public:
     virtual void onDeviceChange(const Leap::Controller&);
     virtual void onServiceConnect(const Leap::Controller&);
     virtual void onServiceDisconnect(const Leap::Controller&);
+
+    void addFrameHandler(IFrameHanler* framehandler);
 private:
-    HandSkeletonWidget* widget;
-    Recorder* recorder;
+    std::vector<IFrameHanler*> frameHandlers;
 };
 
 #endif // SAMPLELISTINER_H

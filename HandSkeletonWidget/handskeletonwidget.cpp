@@ -8,13 +8,7 @@ HandSkeletonWidget::HandSkeletonWidget(QWidget *parent)
     : QGLWidget(parent),
       lastFrame(nullptr),
       updateFrame(false)
-{
-    //QLabel *label = new QLabel(this);
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    //label->setText("Hand skeleton");
-    //layout->addWidget(label);
-    //setLayout(layout);
-}
+{}
 
 void HandSkeletonWidget::paintGL()
 {
@@ -149,14 +143,18 @@ void HandSkeletonWidget::drawGrid()
     glEnd();
 }
 
-void HandSkeletonWidget::setFrame(Leap::Frame frame)
+void HandSkeletonWidget::setFrame(const Leap::Frame& frame)
 {
-    /*std::cout << "Frame id: " << frame.id()
+    std::cout << "Frame id: " << frame.id()
               << ", timestamp: " << frame.timestamp()
               << ", hands: " << frame.hands().count()
               << ", extended fingers: " << frame.fingers().extended().count()
               << ", tools: " << frame.tools().count()
-              << ", gestures: " << frame.gestures().count() << std::endl;*/
+              << ", gestures: " << frame.gestures().count() << std::endl;
+    Leap::ImageList images = frame.images();
+    Leap::Image image = images[0];
+    std::cout << "Image: " << image.width() << ' ' << image.height() << '\n';
+
     lastFrame.reset( new Leap::Frame(frame));
     updateFrame = true;
     update();
