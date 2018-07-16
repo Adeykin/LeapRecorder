@@ -25,6 +25,13 @@ SequenceMarker::SequenceMarker()
 
 }
 
+QImage SequenceMarker::getImage() const
+{
+    if( IRimages.size() > index )
+        return IRimages[index];
+    return QImage();
+}
+
 int SequenceMarker::load(QString fileName)
 {
     Leap::Controller controller; //instance must be created
@@ -33,7 +40,18 @@ int SequenceMarker::load(QString fileName)
 
     const int bufSize = 10000;
     char buf[bufSize];
+    uint8_t version = 0;
     std::ifstream file(fileName.toStdString().c_str(), std::ios::binary);
+    file.read(buf, 2); //Read magic sequense and version
+    bool isMagicSequenceOk = buf[0] == 'M' && buf[1] == 'N';
+    if(isMagicSequenceOk)
+        version = file.get();
+    else
+    {
+        qDebug() << "WARNING: Wrong magic sequence in file\n";
+        file.seekg(0, file.beg);
+    }
+
     do
     {
         int32_t size;
@@ -60,6 +78,14 @@ int SequenceMarker::load(QString fileName)
                   << ", gestures: " << reconstructedFrame.gestures().count() << std::endl;
 
         frames.push_back(reconstructedFrame);
+
+        //Read IR images
+        if(version == 1)
+        {
+            QImage image(640, 240, QImage::Format::Format_Grayscale8);
+            file.read((char*)image.bits(), 640*240);
+            IRimages.push_back(std::move(image));
+        }
     } while( file );
 
     std::string labelsFileName = fileName.toStdString() + ".lbl";

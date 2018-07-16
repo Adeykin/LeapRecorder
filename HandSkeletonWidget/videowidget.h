@@ -9,7 +9,9 @@ class VideoWidget : public QWidget, public IFrameHanler {
     //Q_OBJECT
 public:
     VideoWidget(int windth, int height, QWidget* parent);
+    VideoWidget(QWidget* parent) : VideoWidget(640, 240, parent) {}
     void setFrame(const Leap::Frame& frame) override;
+    void setImage(const QImage& image);
 protected:
     void paintEvent(QPaintEvent* event) override;
 private:

@@ -49,9 +49,10 @@ void MainWindowMarker::appReady() //slot
 void MainWindowMarker::updateUI()
 {
     HandSkeletonWidget* skeletWidget = (HandSkeletonWidget*)ui->widget;
-
-    //Leap::Frame frame = seqMarker->getFrame();
     skeletWidget->setFrame( seqMarker->getFrame() );
+
+    VideoWidget* videoWidget = (VideoWidget*)ui->widget_2;
+    videoWidget->setImage( seqMarker->getImage() );
 
     status->setText( QString().setNum(seqMarker->getCurrentIndex()) + "/" + QString().setNum(seqMarker->getMaxIndex()) );
     ui->actualLatter->setText( QString().setNum((int)seqMarker->getLabel()) );

@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QtGlobal>
+#include <QImage>
 #include <list>
 #include <cmath>
 #include <Leap.h>
@@ -22,6 +23,7 @@ public:
     void setLabel(char label) { labels[index] = label; }
 
     Leap::Frame getFrame() const {return frames[index];}
+    QImage getImage() const;
 
     int save();
 
@@ -31,6 +33,7 @@ private:
 
     std::string fileName;
     std::vector<Leap::Frame> frames;
+    std::vector<QImage> IRimages;
     std::vector<char> labels;
     int index = 0;
 };

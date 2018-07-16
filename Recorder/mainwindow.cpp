@@ -35,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
     videoWidget = new VideoWidget(640, 240, central);
     hLayout->addWidget(videoWidget);
 
+    imagesCheckbox = new QCheckBox("Write video", central);
+    layout->addWidget(imagesCheckbox);
+
     recBut = new QPushButton("Rec");
     layout->addWidget(recBut);
 
@@ -68,6 +71,16 @@ void MainWindow::recClicked()
 
         if(recorder)
         {
+            int version = 0;
+            if(imagesCheckbox->checkState() == Qt::Checked) {
+                version = 1;
+            }
+            const int bufSize = 640*240;
+            uint8_t zeroBuf[bufSize]; //size of Leap Motion IR image
+            memset(zeroBuf, 0, bufSize);
+
+            qDebug() << "Serialisation version: " << version << '\n';
+
             recorder->stopRecord();
 
             std::pair<std::list<Leap::Frame>, std::list<char>> recordPair = recorder->getRecord();
@@ -80,6 +93,8 @@ void MainWindow::recClicked()
             qDebug() << fileName;
 
             std::ofstream file(fileName.toStdString().c_str(), std::ios::binary);
+            file << "MN"; //Magic sequence
+            file.put(version);
             for(auto it = recordPair.first.begin(); it != recordPair.first.end(); it++)
             {
                 Leap::Frame& frame = *it;
@@ -89,11 +104,18 @@ void MainWindow::recClicked()
                 int32_t size = serializedFrame.size();
                 file.write((char*)&size, 4);
                 file.write(serializedFrame.c_str(), size);
+
+                if(version == 1)
+                {
+                    if(frame.images().count() > 0)
+                        file.write((char*)frame.images()[0].data(), bufSize);
+                    else
+                        file.write((char*)zeroBuf, bufSize);
+                }
             }
 
             std::ofstream fileLabels((fileName.toStdString() + ".lbl").c_str(), std::ios::binary);
             for(char label: recordPair.second)
-                //fileLabels.write( &label, 1);
                 fileLabels.put(label);
         }
     }

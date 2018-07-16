@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QLabel>
+#include <QCheckBox>
 #include <handskeletonwidget.h>
 #include <recorder.h>
 #include <videowidget.h>
@@ -34,6 +35,7 @@ private:
     Recorder* recorder = nullptr;
     QPushButton* recBut;
     QPixmap* pixmap;
+    QCheckBox* imagesCheckbox;
 
     bool recordingNow = false;
 };

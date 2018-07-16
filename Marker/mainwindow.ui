@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>694</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,14 +18,30 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="HandSkeletonWidget" name="widget" native="true">
+       <layout class="QHBoxLayout" name="horizontalLayout"/>
+      </item>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="VideoWidget" name="widget_2" native="true">
         <property name="minimumSize">
          <size>
           <width>500</width>
-          <height>500</height>
+          <height>150</height>
          </size>
         </property>
-        <zorder>horizontalSlider</zorder>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="HandSkeletonWidget" name="widget" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>400</width>
+          <height>350</height>
+         </size>
+        </property>
+        <zorder>label</zorder>
        </widget>
       </item>
       <item>
@@ -123,6 +139,12 @@
    <class>HandSkeletonWidget</class>
    <extends>QWidget</extends>
    <header location="global">handskeletonwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VideoWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">videowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

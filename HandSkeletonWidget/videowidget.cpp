@@ -20,6 +20,8 @@ void VideoWidget::paintEvent(QPaintEvent* event) {
 
 void VideoWidget::setFrame(const Leap::Frame& frame) {
 
+    std::cout << "Get frame: " << frame.images().count() << '\n';
+
     if(frame.images().count() != 2)
         return;
 
@@ -31,6 +33,12 @@ void VideoWidget::setFrame(const Leap::Frame& frame) {
     }
 
     memcpy(buf.data(), frameImage.data(), frameImage.width()*frameImage.height());
+
+    update();
+}
+
+void VideoWidget::setImage(const QImage& image) {
+    this->image = image;
 
     update();
 }
